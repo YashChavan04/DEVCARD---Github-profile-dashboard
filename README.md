@@ -26,4 +26,7 @@ A GitHub profile dashboard that fetches and displays developer information and r
 **Yash Chavan**  
 [GitHub](https://github.com/YashChavan04)
 
+## 🌐 Live Demo
+https://devcard-github-profile-dashboard.vercel.app/
+
 Built as part of the Ascent Labs Web Development Internship.
