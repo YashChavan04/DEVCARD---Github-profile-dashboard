@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DEVCARD | GitHub Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fa-brands fa-github"></i>
+            <h2>DEV<span>CARD</span></h2>
+        </div>
+
+        <nav>
+            <a href="#dashboard" class="active nav-link" data-target="dashboard">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+
+            <a href="#profile" class="nav-link" data-target="profile">
+                <i class="fa-solid fa-user"></i> Profile
+            </a>
+
+            <a href="#repositories" class="nav-link" data-target="repositories">
+                <i class="fa-solid fa-code-branch"></i> Repositories
+            </a>
+
+            <a href="#analytics" class="nav-link" data-target="analytics">
+                <i class="fa-solid fa-chart-pie"></i> Analytics
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <p>Powered by GitHub API</p>
+            <i class="fa-brands fa-github"></i>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div>
+                <h1>GitHub Dashboard</h1>
+                <p>Explore developer profiles and repositories.</p>
+            </div>
+
+            <div class="top-icon">
+                <i class="fa-brands fa-github"></i>
+            </div>
+
+        </header>
+
+
+        <!-- SEARCH SECTION -->
+        <section class="search-section">
+
+            <div>
+                <h2>Find a Developer</h2>
+                <p>Enter a GitHub username to explore their profile.</p>
+            </div>
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="usernameInput"
+                    placeholder="Enter GitHub username..."
+                    autocomplete="off"
+                >
+
+                <button id="searchBtn">Search</button>
+
+            </div>
+
+            <!-- SEARCH HISTORY -->
+            <div class="history-row" id="historyRow">
+
+                <span>Recent:</span>
+
+                <div id="searchHistory"></div>
+
+                <button id="clearHistory" class="clear-history">
+                    Clear
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- LOADING SKELETON -->
+        <div id="loading" class="loading-panel hidden">
+
+            <div class="skeleton skeleton-profile"></div>
+
+            <div class="skeleton-grid">
+                <div class="skeleton"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton"></div>
+                <div class="skeleton"></div>
+            </div>
+
+            <p>
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                Fetching GitHub data...
+            </p>
+
+        </div>
+
+
+        <!-- ERROR MESSAGE -->
+        <div id="error" class="message error hidden" role="alert"></div>
+
+
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="hidden">
+
+
+            <!-- PROFILE SECTION -->
+            <section class="profile-card" id="profile">
+
+                <div class="profile-left">
+
+                    <img id="avatar" src="" alt="GitHub avatar">
+
+                    <div class="profile-details">
+
+                        <h2 id="name">Developer Name</h2>
+
+                        <p id="username">@username</p>
+
+                        <p id="bio">Developer bio appears here.</p>
+
+                        <div class="profile-meta" id="profileMeta"></div>
+
+                    </div>
+
+                </div>
+
+                <a id="githubLink" href="#" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-github"></i>
+                    View Profile
+                </a>
+
+            </section>
+
+
+            <!-- STATISTICS -->
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-book"></i>
+                    <p>Public Repositories</p>
+                    <h2 id="repos">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Followers</p>
+                    <h2 id="followers">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <p>Following</p>
+                    <h2 id="following">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <i class="fa-solid fa-star"></i>
+                    <p>Total Stars</p>
+                    <h2 id="stars">0</h2>
+                </div>
+
+            </section>
+
+
+            <!-- REPOSITORY EXPLORER -->
+            <section class="content-section" id="repositories">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Repository Explorer</h2>
+                        <p>Search, filter and sort public repositories.</p>
+                    </div>
+
+                    <span id="repoCount" class="result-count"></span>
+
+                </div>
+
+
+                <!-- REPOSITORY FILTERS -->
+                <div class="repo-controls">
+
+                    <input
+                        id="repoSearch"
+                        type="search"
+                        placeholder="Search repositories..."
+                    >
+
+                    <select id="languageFilter">
+                        <option value="all">All languages</option>
+                    </select>
+
+                    <select id="sortRepos">
+
+                        <option value="stars">Most stars</option>
+                        <option value="forks">Most forks</option>
+                        <option value="updated">Recently updated</option>
+                        <option value="name">Name A–Z</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- REPOSITORIES -->
+                <div id="repoList" class="repo-grid"></div>
+
+                <p id="repoEmpty" class="empty-message hidden">
+                    No repositories match your filters.
+                </p>
+
+            </section>
+
+
+            <!-- LANGUAGE ANALYTICS -->
+            <section class="content-section analytics-section" id="analytics">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Language Analytics</h2>
+                        <p>
+                            Breakdown based on the primary language
+                            of each public repository.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-card">
+
+                    <div id="languageChart" class="donut-chart">
+
+                        <div class="donut-hole">
+
+                            <strong id="languageTotal">0</strong>
+
+                            <span>Repositories</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="languageLegend" class="language-legend">
+
+                        <p class="muted">
+                            Search a profile to see language statistics.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- WELCOME SCREEN -->
+        <div id="welcome" class="welcome">
+
+            <i class="fa-brands fa-github"></i>
+
+            <h2>Discover GitHub developers</h2>
+
+            <p>
+                Search for a username to explore profile information,
+                repositories and language statistics.
+            </p>
+
+            <button id="sampleSearch" class="sample-button">
+                Try example: octocat
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
